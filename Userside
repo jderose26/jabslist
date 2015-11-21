@@ -1,0 +1,108 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package jabslist;
+import java.sql.*;
+import java.util.Scanner;
+
+public class userSide {
+	
+
+
+
+
+	      private String firstName;
+	      private String lastName;
+	      private String userName;
+	      private String userPassword; 
+	      private String university;
+	   
+
+	      //Getter and setters!
+	         public String getLastName() {
+	             return lastName;
+	         }
+
+	         public void setLastName(String lastName) {
+	             this.lastName = lastName;
+	         }
+
+	         public String getFirstName() {
+	             return firstName;
+	         }
+
+	         public void setFirstName(String firstName) {
+	             this.firstName = firstName;
+	         }
+
+	         public String getUniversity() {
+	             return university;
+	         }
+
+	         public void setUniversity(String university) {
+	             this.university = university;
+	         }
+	     //getter and setters end here    
+	     
+	         
+	     private void logIn(){
+	             Scanner input = new Scanner(System.in);
+	             Statement statement = con.createStatement(); //connecting to Database
+
+	             ResultSet rs = statement.executeQuery(); //Y WON'T DIS WORK u aint got da mySQL ma homie
+	             System.out.println("Enter username\n" ); //gui input txt field should be here
+	             String userEntry = input.next();
+	             System.out.println("Enter password\n" ); //gui input txt field should be here 
+	             String passEntry = input.next();
+	             int tmp = 0;
+	             while (rs.next())
+	             {
+	             userName = rs.getString("email");
+	             userPassword = rs.getString("password");
+	  
+	             if ((userEntry.equals(userName)) && (passEntry.equals(userPassword)))
+	             {
+	                 System.out.println("Log in Successful!");
+	                 tmp++;
+	                 //Bring users to mainscreen
+	             }
+	             }
+	             if (tmp == 0){
+	                 System.out.println("Username/password combination not found. Please try again.");
+	                 //gui input log in screen should be here! Maybe we can make another function?
+	             }
+	             
+	         //maybe a splash screen here? https://docs.oracle.com/javase/tutorial/uiswing/misc/splashscreen.html
+	     
+	         }
+	                
+	     private void registerUser(){
+	         Statement statement = con.createStatement(); //connecting to Database
+	         Scanner input = new Scanner(System.in);
+
+	         //THIS SHOULD ALL BE GUI
+	         System.out.println("Enter your first name");
+	         setFirstName(input.next()); 
+	         System.out.println("Enter your last name");
+	         setLastName(input.next());
+	         System.out.println("Enter your email address - your email address will be used as your username\n");
+	         userName = input.next();
+	         System.out.println("Create a password. Must be at least 8 characters.");
+	         userPassword = "";
+	         while((userPassword=input.nextLine()).length()<8){
+	             System.out.println("Password does not meet requirements, please type again.");
+	             userPassword = input.next();
+	         }
+	         System.out.println("Enter your University"); //Maybe this could be a drop down field to choose from?
+	         setUniversity(input.next());
+	         //GUI ENDS HERE
+	         statement.executeUpdate("INSERT INTO users " + "VALUES (firstNameField.getText(), lastNameField.getText(), TextfieldUSERNAME.getText(), textFieldPASSWORD.getPassword(), uniComboBox.getSelectedItem().toString())");
+	         //pushing values into database
+	     }
+	     
+
+
+	 }
+
